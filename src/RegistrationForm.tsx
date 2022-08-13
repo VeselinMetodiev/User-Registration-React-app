@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { User, UserRole, UserStatus } from './user.model';
-import { UserListener } from './App'
+import { AppStateListener, UserListener } from './App'
 import './registrationForm.css'
+import { AppState } from './shared-types';
 
 interface UserInputProps {
     onCreateUser: UserListener
+    onLoginUser: AppStateListener
 }
 
 interface UserInputState {
@@ -64,6 +66,12 @@ export default class RegistrationForm extends Component<UserInputProps, UserInpu
         this.setState({firstName: '', lastName: '', username: '', password: '', gender: '', pictureUrl: '', description: ''})
     }
 
+    handleUserLogin = (event: React.FormEvent) => {
+        event.preventDefault(); //if none - it will reload the page
+        console.log("Changing State");
+        this.props.onLoginUser(AppState.Login);
+        }
+
   render() {
     return (
       <form className='UserInput-form' onSubmit={this.handleUserSubmit}>
@@ -90,6 +98,7 @@ export default class RegistrationForm extends Component<UserInputProps, UserInpu
             onChange={this.handleTextChanged} />
 
             <button className="button button5" type="submit">Register</button>
+            <button className="button button5" type="button" onClick={this.handleUserLogin}>Sign In</button>
             <button className="button button3" type="reset" onClick={this.handleUserReset}>Reset</button>
         </form>
     )
