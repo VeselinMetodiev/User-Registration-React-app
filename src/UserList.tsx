@@ -8,7 +8,6 @@ interface Props {
     filter: FilterType;
     onUpdate: UserListener;
     onDelete : UserListener;
-    onCancel : UserListener;
 }
 
 export default function UserList({users, filter, ...rest} : Props) {

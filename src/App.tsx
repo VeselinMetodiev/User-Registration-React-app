@@ -51,12 +51,6 @@ handleUpdateUser(user:User) {
   }))
 }
 
-handleCancelUser = (user:User) => {
-  this.setState(({users}) => ({
-    users: users.filter(u => u.id !== user.id)
-  }))
-}
-
 handleDeleteUser = async (user:User) => {
   const deletedUser = await UsersAPI.deleteById(user.id);
   this.setState(({users}) => ({
@@ -90,7 +84,6 @@ handleCreateUser = async (user:User) => {
         <UserList 
         users={this.state.users} filter={this.state.filter}
         onUpdate={this.handleUpdateUser}
-        onCancel={this.handleCancelUser}
         onDelete={this.handleDeleteUser}
         />
       </header>

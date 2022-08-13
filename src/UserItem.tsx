@@ -8,10 +8,9 @@ interface UserItemProps {
     user: User;
     onUpdate: UserListener;
     onDelete : UserListener;
-    onCancel: UserListener;
 }
 
-const UserItem = ({user, onUpdate, onDelete, onCancel}: UserItemProps) => {
+const UserItem = ({user, onUpdate, onDelete}: UserItemProps) => {
 
 function handleUserDeactivation(event: React.MouseEvent){
     onUpdate({...user, status: UserStatus.DEACTIVATED})
@@ -21,6 +20,11 @@ function handleUserDeactivation(event: React.MouseEvent){
 function handleUserSuspension(event: React.MouseEvent){
     onUpdate({...user, status: UserStatus.SUSPENDED})
     updateUserStatus(user, UserStatus.SUSPENDED);
+}
+
+function handleUserActivation(event: React.MouseEvent){
+    onUpdate({...user, status: UserStatus.ACTIVE})
+    updateUserStatus(user, UserStatus.ACTIVE);
 }
 
 function updateUserStatus(user:User, status: UserStatus){
@@ -45,10 +49,15 @@ function updateUserStatus(user:User, status: UserStatus){
                     onClick={handleUserDeactivation}></span>
                     <span className="UserItem-button fas fa-circle-dot"
                     onClick={handleUserSuspension}></span> 
-                    </span> : user.status === UserStatus.SUSPENDED ?
+                    </span>
+                     : (user.status === UserStatus.SUSPENDED || user.status === UserStatus.DEACTIVATED) &&
+                     <span>
                     <span className="UserItem-button fas fa-trash-can danger"
-                    onClick={() => onDelete(user)}></span> : <span className="UserItem-button fas fa-trash danger"
-                    onClick={() => onCancel(user)}></span>
+                    onClick={() => onDelete(user)}></span>
+                    <span className="UserItem-button fas fa-heart"
+                    onClick={handleUserActivation}></span>
+                    </span>
+                
                     }
             </span>
         </div>
