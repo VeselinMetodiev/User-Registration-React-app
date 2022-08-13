@@ -7,6 +7,7 @@ import UserFilter from './UserFilter';
 import { UsersAPI } from './rest-api-client';
 import { AppState } from './shared-types';
 import LoginForm from './LoginForm';
+import Child from './Child';
 
 interface UsersAppState {
   users: User[];
@@ -40,6 +41,10 @@ class App extends Component<{}, UsersAppState> {
   constructor(props: {}) {
     super(props)
     this.handleUpdateUser = this.handleUpdateUser.bind(this);
+  }
+
+  pull_data = (data: string) => {
+    console.log(data); // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
   }
 
   //Callback method
@@ -90,6 +95,11 @@ handleCreateUser = async (user:User) => {
     <div className="App">
       <header className="App-header">
         <h1>User System</h1>
+        <div className='App'>
+      <Child
+        func={this.pull_data}
+      />
+    </div>
         {/* {this.state.errors && <div className="errors">{this.state.errors}</div>} */}
         {
         this.state.appState === AppState.Registration ?

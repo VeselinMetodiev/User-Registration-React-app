@@ -3,6 +3,7 @@ import { User, UserRole, UserStatus } from './user.model';
 import { AppStateListener, UserListener } from './App'
 import './registrationForm.css'
 import { AppState } from './shared-types';
+import { UsersAPI } from './rest-api-client';
 
 interface UserInputProps {
     onRegistrationUser: AppStateListener;
@@ -24,11 +25,18 @@ export default class RegistrationForm extends Component<UserInputProps, UserLogi
         appState: AppState.Login,
     }
 
-    handleUserSubmit = (event: React.FormEvent) => {
+    handleUserSubmit = async (event: React.FormEvent) => {
     event.preventDefault(); //if none - it will reload the page
+    const allUsers = await UsersAPI.findAll();
+    const currentUser = allUsers.filter(us => us.username === this.state.username 
+        && us.password === this.state.password);
+    if(currentUser){
     this.setState({appState: AppState.InApp})
     console.log("Changing State");
     this.props.onSuccessfulLogin(AppState.InApp);
+    } else {
+        console.log("Wrong username or password.");
+    }
     }
 
     handleUserRegistration = (event: React.FormEvent) => {
