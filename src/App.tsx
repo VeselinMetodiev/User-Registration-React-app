@@ -5,11 +5,14 @@ import RegistrationForm from './RegistrationForm';
 import UserList from './UserList';
 import UserFilter from './UserFilter';
 import { UsersAPI } from './rest-api-client';
+import { AppState } from './shared-types';
+import LoginForm from './LoginForm';
 
 interface UsersAppState {
   users: User[];
   filter: FilterType;
   errors: string | undefined;
+  appState: AppState;
 }
 
 export interface UserListener {
@@ -27,6 +30,7 @@ class App extends Component<{}, UsersAppState> {
     users: [],
     filter: undefined,
     errors: undefined,
+    appState: AppState.Login,
   }
 
   constructor(props: {}) {
@@ -79,6 +83,9 @@ handleCreateUser = async (user:User) => {
       <header className="App-header">
         <h1>User System</h1>
         {/* {this.state.errors && <div className="errors">{this.state.errors}</div>} */}
+        {
+        this.state.appState === AppState.Registration ?
+        <div className='registration-form'>
         <RegistrationForm onCreateTodo={this.handleCreateUser}/>
         <UserFilter filter={this.state.filter} onFilterChange={this.handleFilterChange} />
         <UserList 
@@ -86,6 +93,10 @@ handleCreateUser = async (user:User) => {
         onUpdate={this.handleUpdateUser}
         onDelete={this.handleDeleteUser}
         />
+        </div>
+        : 
+        < LoginForm onCreateTodo={this.handleCreateUser}/>
+  }
       </header>
     </div>
   );
