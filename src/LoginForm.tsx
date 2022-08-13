@@ -1,27 +1,34 @@
 import React, { Component } from 'react'
 import { User, UserRole, UserStatus } from './user.model';
-import { UserListener } from './App'
+import { AppStateListener, UserListener } from './App'
 import './registrationForm.css'
+import { AppState } from './shared-types';
 
 interface UserInputProps {
-    onCreateTodo: UserListener
+    onLoginUser: AppStateListener
 }
 
 interface UserLoginState {
     username: string;
     password: string;
     lastModificationTimespan: string;
+    appState: AppState;
 }
 
 export default class RegistrationForm extends Component<UserInputProps, UserLoginState> {
     state: Readonly<UserLoginState> = {
         username: '',
         password: '',
-        lastModificationTimespan: new Date().toDateString()
+        lastModificationTimespan: new Date().toDateString(),
+        appState: AppState.Login,
     }
 
     handleUserSubmit = (event: React.FormEvent) => {
     event.preventDefault(); //if none - it will reload the page
+    this.setState({appState: AppState.Registration})
+    console.log("Changing State");
+    this.props.onLoginUser(AppState.Registration);
+    
     }
 
   handleTextChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +52,7 @@ export default class RegistrationForm extends Component<UserInputProps, UserLogi
         <input type="password" id="TodoInput-todo-password" name="password" value={this.state.password}
             onChange={this.handleTextChanged} />
             <button className="button button5" type="submit">Sign In</button>
-            <button className="button button2" type="submit">Register</button>
+            <button className="button button2" type="button">Register</button>
             <button className="button button3" type="reset" onClick={this.handleUserReset}>Reset</button>
         </form>
     )

@@ -23,6 +23,10 @@ export interface FilterChangeListener {
   (filter: FilterType): void;
 }
 
+export interface AppStateListener {
+  (st: AppState) : void;
+}
+
 export type FilterType = UserStatus | undefined;
 
 class App extends Component<{}, UsersAppState> {
@@ -53,6 +57,10 @@ handleUpdateUser(user:User) {
   this.setState(({users}) => ({
     users: users.map(u => u.id === user.id ? user : u)
   }))
+}
+
+handleChangeAppState = (st: AppState) => {
+  this.setState({appState : st })
 }
 
 handleDeleteUser = async (user:User) => {
@@ -86,7 +94,7 @@ handleCreateUser = async (user:User) => {
         {
         this.state.appState === AppState.Registration ?
         <div className='registration-form'>
-        <RegistrationForm onCreateTodo={this.handleCreateUser}/>
+        <RegistrationForm onCreateUser={this.handleCreateUser}/>
         <UserFilter filter={this.state.filter} onFilterChange={this.handleFilterChange} />
         <UserList 
         users={this.state.users} filter={this.state.filter}
@@ -95,7 +103,7 @@ handleCreateUser = async (user:User) => {
         />
         </div>
         : 
-        < LoginForm onCreateTodo={this.handleCreateUser}/>
+        < LoginForm onLoginUser={() => this.handleChangeAppState(AppState.Registration)}/>
   }
       </header>
     </div>

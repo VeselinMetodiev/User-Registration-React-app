@@ -4,7 +4,7 @@ import { UserListener } from './App'
 import './registrationForm.css'
 
 interface UserInputProps {
-    onCreateTodo: UserListener
+    onCreateUser: UserListener
 }
 
 interface UserInputState {
@@ -38,7 +38,7 @@ export default class RegistrationForm extends Component<UserInputProps, UserInpu
 
     handleUserSubmit = (event: React.FormEvent) => {
     event.preventDefault(); //if none - it will reload the page
-    this.props.onCreateTodo(new User(
+    this.props.onCreateUser(new User(
         this.state.firstName,
         this.state.lastName,
         this.state.username,
@@ -68,25 +68,25 @@ export default class RegistrationForm extends Component<UserInputProps, UserInpu
     return (
       <form className='UserInput-form' onSubmit={this.handleUserSubmit}>
         <label htmlFor="firstName"><b>First Name</b><br></br></label>
-        <input type="text" id="TodoInput-todo-firstName" name="firstName" value={this.state.firstName}
+        <input type="text" id="UserInput-User-firstName" name="firstName" value={this.state.firstName}
             onChange={this.handleTextChanged} />
         <label htmlFor="lastName"><br></br><b>Last Name</b><br></br></label>
-        <input type="text" id="TodoInput-todo-lastName" name="lastName" value={this.state.lastName}
+        <input type="text" id="UserInput-User-lastName" name="lastName" value={this.state.lastName}
             onChange={this.handleTextChanged} />
         <label htmlFor="username"><br></br><b>Username</b><br></br></label>
-        <input type="text" id="TodoInput-todo-username" name="username" value={this.state.username}
+        <input type="text" id="UserInput-User-username" name="username" value={this.state.username}
             onChange={this.handleTextChanged} />
         <label htmlFor="password"><br></br><b>Password</b><br></br></label>
-        <input type="password" id="TodoInput-todo-password" name="password" value={this.state.password}
+        <input type="password" id="UserInput-User-password" name="password" value={this.state.password}
             onChange={this.handleTextChanged} />
              <label htmlFor='m'><br></br>Gender<br></br></label>
-    <input type="text" id="TodoInput-todo-gender" name="gender" value={this.state.gender}
+    <input type="text" id="UserInput-User-gender" name="gender" value={this.state.gender}
             onChange={this.handleTextChanged} />
         <label htmlFor="pictureURL"><br></br><b>Picture URL</b><br></br></label>
-        <input type="text" id="TodoInput-todo-pictureURL" name="pictureUrl" value={this.state.pictureUrl}
+        <input type="text" id="UserInput-User-pictureURL" name="pictureUrl" value={this.state.pictureUrl}
             onChange={this.handleTextChanged} />
         <label htmlFor="description"><br></br><b>Description</b><br></br></label>
-        <input type="text" id="TodoInput-todo-descripotion" name="description" value={this.state.description}
+        <input type="text" id="UserInput-User-descripotion" name="description" value={this.state.description}
             onChange={this.handleTextChanged} />
 
             <button className="button button5" type="submit">Register</button>
