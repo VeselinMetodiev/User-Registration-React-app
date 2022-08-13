@@ -95,6 +95,10 @@ handleCreateUser = async (user:User) => {
         this.state.appState === AppState.Registration ?
         <div className='registration-form'>
         <RegistrationForm onCreateUser={this.handleCreateUser}/>
+        </div>
+        :  this.state.appState === AppState.Login ?
+        < LoginForm onSuccessfulLogin={() => this.handleChangeAppState(AppState.InApp)} onRegistrationUser={() => this.handleChangeAppState(AppState.Registration)}/> :
+        <div className='inApp'>
         <UserFilter filter={this.state.filter} onFilterChange={this.handleFilterChange} />
         <UserList 
         users={this.state.users} filter={this.state.filter}
@@ -102,8 +106,7 @@ handleCreateUser = async (user:User) => {
         onDelete={this.handleDeleteUser}
         />
         </div>
-        : 
-        < LoginForm onLoginUser={() => this.handleChangeAppState(AppState.Registration)}/>
+        
   }
       </header>
     </div>
