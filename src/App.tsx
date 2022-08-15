@@ -104,6 +104,7 @@ handleCreateUser = async (user:User) => {
         users: users.concat(created),
         errors: undefined
       }));
+      this.setState({appState: AppState.InApp});
     }
   } catch (err) {
     this.setState({ errors: err as string })

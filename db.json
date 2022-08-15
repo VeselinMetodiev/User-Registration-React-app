@@ -1,46 +1,46 @@
 {
   "users": [
     {
-      "firstName": "Roger",
-      "lastName": "Federer",
-      "username": "",
-      "password": "",
-      "gender": "",
+      "firstName": "Veselin",
+      "lastName": "Metodiev",
+      "username": "vesko",
+      "password": "vesko123",
+      "gender": "Male",
+      "userRole": "User",
+      "userPicture": "https://www.qries.com/images/banner_logo.png",
+      "description": "I am vesko",
+      "status": 1,
+      "registrationTimestamp": "Mon Aug 15 2022",
+      "lastModificationTimestamp": "Mon Aug 15 2022",
+      "id": 1
+    },
+    {
+      "firstName": "Trayan",
+      "lastName": "Iliev",
+      "username": "trayan",
+      "password": "trayan123",
+      "gender": "Male",
       "userRole": "User",
       "userPicture": "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-      "description": "",
+      "description": "I am trayan",
       "status": 1,
       "registrationTimestamp": "Mon Aug 15 2022",
       "lastModificationTimestamp": "Mon Aug 15 2022",
       "id": 2
     },
     {
-      "firstName": "Vesko",
-      "lastName": "Metodiev",
-      "username": "",
-      "password": "",
-      "gender": "",
+      "firstName": "Georgi",
+      "lastName": "Georgiev",
+      "username": "gogo",
+      "password": "georgi123",
+      "gender": "Male",
       "userRole": "User",
       "userPicture": "https://www.qries.com/images/banner_logo.png",
-      "description": "",
+      "description": "I am gogo",
       "status": 1,
       "registrationTimestamp": "Mon Aug 15 2022",
       "lastModificationTimestamp": "Mon Aug 15 2022",
       "id": 3
-    },
-    {
-      "firstName": "Vesko",
-      "lastName": "Metodiev",
-      "username": "",
-      "password": "",
-      "gender": "",
-      "userRole": "User",
-      "userPicture": "https://activebulgariansociety.org/uploads//blog/ad533bfcfdaee82ebc54cf69d5561e6c.jpg",
-      "description": "",
-      "status": 1,
-      "registrationTimestamp": "Mon Aug 15 2022",
-      "lastModificationTimestamp": "Mon Aug 15 2022",
-      "id": 4
     }
   ]
 }

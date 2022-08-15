@@ -28,7 +28,7 @@ export default class RegistrationForm extends Component<UserInputProps, UserLogi
     handleUserSubmit = async (event: React.FormEvent) => {
     event.preventDefault(); //if none - it will reload the page
     const allUsers = await UsersAPI.findAll();
-    const currentUser = allUsers.filter(us => (us.username === this.state.username && us.password === this.state.password));
+    const currentUser = allUsers.find(us => (us.username === this.state.username && us.password === this.state.password));
     if(currentUser){
     console.log(currentUser);
     console.log(this.state.username);
