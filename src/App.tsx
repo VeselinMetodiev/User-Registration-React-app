@@ -127,7 +127,7 @@ handleCreateUser = async (user:User) => {
         <RegistrationForm key={this.state.editedUser?.id} user={this.state.editedUser} onLoginUser={() => this.handleChangeAppState(AppState.Login)} onCreateUser={this.handleCreateUser}/>
         </div>
         :  this.state.appState === AppState.Login ?
-        < LoginForm onSuccessfulLogin={() => this.handleChangeAppState(AppState.InApp)} onRegistrationUser={() => this.handleChangeAppState(AppState.Registration)}/> :
+        < LoginForm onSuccessfulLogin={(onSuccessfulLogin) => this.handleChangeAppState(onSuccessfulLogin)} onRegistrationUser={() => this.handleChangeAppState(AppState.Registration)}/> :
         this.state.editedUser ?
         <div className='inApp'>
           <div className='registration-form'>

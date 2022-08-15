@@ -28,14 +28,16 @@ export default class RegistrationForm extends Component<UserInputProps, UserLogi
     handleUserSubmit = async (event: React.FormEvent) => {
     event.preventDefault(); //if none - it will reload the page
     const allUsers = await UsersAPI.findAll();
-    const currentUser = allUsers.filter(us => us.username === this.state.username 
-        && us.password === this.state.password);
+    const currentUser = allUsers.filter(us => (us.username === this.state.username && us.password === this.state.password));
     if(currentUser){
-    this.setState({appState: AppState.InApp})
+    console.log(currentUser);
+    console.log(this.state.username);
+    console.log(this.state.password);
     console.log("Changing State");
     this.props.onSuccessfulLogin(AppState.InApp);
     } else {
         console.log("Wrong username or password.");
+        this.props.onSuccessfulLogin(AppState.Login);
     }
     }
 
@@ -59,14 +61,14 @@ export default class RegistrationForm extends Component<UserInputProps, UserLogi
 
   render() {
     return (
-      <form className='UserInput-form' onSubmit={this.handleUserSubmit}>
+      <form className='UserInput-form' >
         <label htmlFor="username"><br></br><b>Username</b><br></br></label>
         <input type="text" id="TodoInput-todo-username" name="username" value={this.state.username}
             onChange={this.handleTextChanged} />
         <label htmlFor="password"><br></br><b>Password</b><br></br></label>
         <input type="password" id="TodoInput-todo-password" name="password" value={this.state.password}
             onChange={this.handleTextChanged} />
-            <button className="button button5" type="submit">Sign In</button>
+            <button className="button button5" type="submit" onClick={this.handleUserSubmit}>Sign In</button>
             <button className="button button2" type="button" onClick={this.handleUserRegistration}>Register</button>
             <button className="button button3" type="reset" onClick={this.handleUserReset}>Reset</button>
         </form>
