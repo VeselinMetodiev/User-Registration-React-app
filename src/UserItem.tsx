@@ -8,9 +8,10 @@ interface UserItemProps {
     user: User;
     onUpdate: UserListener;
     onDelete : UserListener;
+    onEdit: UserListener;
 }
 
-const UserItem = ({user, onUpdate, onDelete}: UserItemProps) => {
+const UserItem = ({user, onUpdate, onDelete, onEdit}: UserItemProps) => {
 
 function handleUserDeactivation(event: React.MouseEvent){
     onUpdate({...user, status: UserStatus.DEACTIVATED})
@@ -57,8 +58,9 @@ function updateUserStatus(user:User, status: UserStatus){
                     <span className="UserItem-button fas fa-heart"
                     onClick={handleUserActivation}></span>
                     </span>
-                
                     }
+                     <span className="UserItem-button fas fa-pen-to-square"
+                    onClick={() => onEdit(user)}></span>
             </span>
         </div>
     )

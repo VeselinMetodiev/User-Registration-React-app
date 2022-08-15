@@ -5,7 +5,7 @@ import RegistrationForm from './RegistrationForm';
 import UserList from './UserList';
 import UserFilter from './UserFilter';
 import { UsersAPI } from './rest-api-client';
-import { AppState } from './shared-types';
+import { AppState, Optional } from './shared-types';
 import LoginForm from './LoginForm';
 import Child from './Child';
 
@@ -14,6 +14,7 @@ interface UsersAppState {
   filter: FilterType;
   errors: string | undefined;
   appState: AppState;
+  editedUser: Optional<User>
 }
 
 export interface UserListener {
@@ -36,6 +37,11 @@ class App extends Component<{}, UsersAppState> {
     filter: undefined,
     errors: undefined,
     appState: AppState.Login,
+    editedUser: undefined
+  }
+
+  handleEditUser = (user: User) => {
+    this.setState({ editedUser: user });
   }
 
   constructor(props: {}) {
@@ -69,10 +75,14 @@ handleChangeAppState = (st: AppState) => {
 }
 
 handleDeleteUser = async (user:User) => {
+  try{
   const deletedUser = await UsersAPI.deleteById(user.id);
   this.setState(({users}) => ({
     users: users.filter(u => u.id !== user.id)
   }))
+}catch(err){
+  this.setState({errors: err as string})
+}
 }
 
 handleFilterChange = (status: FilterType) => {
@@ -80,13 +90,23 @@ this.setState({filter: status})
 }
 
 handleCreateUser = async (user:User) => {
-  try{
-    const createdUser = await UsersAPI.create(user);
-    this.setState(({users}) => ({
-      users: users.concat(createdUser)
-    }))
-  } catch(err){
-    this.setState({errors :err as string})
+  try {
+    if (user.id) { //edit user
+      const updated = await UsersAPI.update(user);
+      this.setState(({ users }) => ({
+        users: users.map(u => u.id === updated.id ? updated : u),
+        errors: undefined,
+        editedUser: undefined
+      }))
+    } else { // create todo
+      const created = await UsersAPI.create(user);
+      this.setState(({ users }) => ({
+        users: users.concat(created),
+        errors: undefined
+      }));
+    }
+  } catch (err) {
+    this.setState({ errors: err as string })
   }
   }
 
@@ -104,20 +124,31 @@ handleCreateUser = async (user:User) => {
         {
         this.state.appState === AppState.Registration ?
         <div className='registration-form'>
-        <RegistrationForm onLoginUser={() => this.handleChangeAppState(AppState.Login)} onCreateUser={this.handleCreateUser}/>
+        <RegistrationForm key={this.state.editedUser?.id} user={this.state.editedUser} onLoginUser={() => this.handleChangeAppState(AppState.Login)} onCreateUser={this.handleCreateUser}/>
         </div>
         :  this.state.appState === AppState.Login ?
         < LoginForm onSuccessfulLogin={() => this.handleChangeAppState(AppState.InApp)} onRegistrationUser={() => this.handleChangeAppState(AppState.Registration)}/> :
+        this.state.editedUser ?
+        <div className='inApp'>
+          <div className='registration-form'>
+        <RegistrationForm key={this.state.editedUser?.id} user={this.state.editedUser} onLoginUser={() => this.handleChangeAppState(AppState.Login)} onCreateUser={this.handleCreateUser}/>
+        </div>
+        <UserFilter filter={this.state.filter} onFilterChange={this.handleFilterChange} />
+        <UserList 
+                  users={this.state.users} filter={this.state.filter}
+                  onUpdate={this.handleUpdateUser}
+                  onDelete={this.handleDeleteUser} onEdit={this.handleEditUser}        />
+        <button className="button button5" type="button" onClick={() => this.handleChangeAppState(AppState.Login)}>Sign Out</button>
+        </div>
+        :
         <div className='inApp'>
         <UserFilter filter={this.state.filter} onFilterChange={this.handleFilterChange} />
         <UserList 
-        users={this.state.users} filter={this.state.filter}
-        onUpdate={this.handleUpdateUser}
-        onDelete={this.handleDeleteUser}
-        />
+                  users={this.state.users} filter={this.state.filter}
+                  onUpdate={this.handleUpdateUser}
+                  onDelete={this.handleDeleteUser} onEdit={this.handleEditUser}        />
         <button className="button button5" type="button" onClick={() => this.handleChangeAppState(AppState.Login)}>Sign Out</button>
         </div>
-        
   }
       </header>
     </div>

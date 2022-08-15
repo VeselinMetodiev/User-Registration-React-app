@@ -2,14 +2,16 @@ import React, { Component } from 'react'
 import { User, UserRole, UserStatus } from './user.model';
 import { AppStateListener, UserListener } from './App'
 import './registrationForm.css'
-import { AppState } from './shared-types';
+import { AppState, Optional } from './shared-types';
 
 interface UserInputProps {
+    user: Optional<User>
     onCreateUser: UserListener
     onLoginUser: AppStateListener
 }
 
 interface UserInputState {
+    id: string
     firstName: string;
     lastName: string;
     username: string;
@@ -25,14 +27,15 @@ interface UserInputState {
 
 export default class RegistrationForm extends Component<UserInputProps, UserInputState> {
     state: Readonly<UserInputState> = {
-        firstName: '',
-        lastName: '',
-        username: '',
-        password: '',
-        gender: '',
+        id: this.props.user?.id?.toString() || '',
+        firstName: this.props.user?.firstName.toString() || '',
+        lastName: this.props.user?.lastName?.toString() || '',
+        username: this.props.user?.username?.toString() || '',
+        password: this.props.user?.password?.toString() || '',
+        gender: this.props.user?.gender?.toString() || '',
         userRole: UserRole.USER,
-        pictureUrl: '',
-        description: '',
+        pictureUrl: this.props.user?.userPicture?.toString() || '',
+        description: this.props.user?.description?.toString() || '',
         userStatus: UserStatus.ACTIVE,
         registrationTimespan: new Date().toDateString(),
         lastModificationTimespan: new Date().toDateString()
@@ -51,7 +54,8 @@ export default class RegistrationForm extends Component<UserInputProps, UserInpu
         this.state.description,
         this.state.userStatus,
         this.state.registrationTimespan,
-        this.state.lastModificationTimespan));
+        this.state.lastModificationTimespan,
+        this.state.id ? parseInt(this.state.id) : undefined));
         this.setState({firstName: '', lastName: '', username: '', password: '', gender: '', pictureUrl: '', description: ''})
   }
 
@@ -75,6 +79,8 @@ export default class RegistrationForm extends Component<UserInputProps, UserInpu
   render() {
     return (
       <form className='UserInput-form' onSubmit={this.handleUserSubmit}>
+        <label htmlFor="id"><b>Id</b><br></br></label>
+        <input type="text" id="TodoInput-todo-text" name="id" defaultValue={this.state.id} disabled />
         <label htmlFor="firstName"><b>First Name</b><br></br></label>
         <input type="text" id="UserInput-User-firstName" name="firstName" value={this.state.firstName}
             onChange={this.handleTextChanged} />
